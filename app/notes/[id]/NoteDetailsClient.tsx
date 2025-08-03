@@ -18,12 +18,10 @@ const NoteDetailsClient = () => {
     refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading, please wait...</p>;
 
-  if (error || !note) return <p>Some error..</p>;
-  const formattedDate = note.updatedAt
-    ? `Updated at: ${note.updatedAt}`
-    : `Created at: ${note.createdAt}`;
+  if (error || !note) return <p>Something went wrong..</p>;
+  const formattedDate = `Created at: ${note.createdAt}`;
 
   return (
     <div>
