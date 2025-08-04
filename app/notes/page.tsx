@@ -7,7 +7,11 @@ export const metadata: Metadata = {
 };
 
 export default async function NotesPage() {
-  const response = await getNotes("", 1);
+  const { notes, totalPages } = await getNotes("", 1);
 
-  return <section>{response?.notes?.length > 0 && <NotesClient />}</section>;
+  return (
+    <section>
+      <NotesClient notes={notes} totalPages={totalPages} />
+    </section>
+  );
 }

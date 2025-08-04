@@ -18,7 +18,7 @@ const useToggle = (): [boolean, () => void, () => void] => {
   return [isOpen, () => setIsOpen(true), () => setIsOpen(false)];
 };
 
-export default function NotesClient({}) {
+export default function NotesClient({ notes, totalPages }: NotesResponse) {
   const [isModalOpen, openModal, closeModal] = useToggle();
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -31,18 +31,19 @@ export default function NotesClient({}) {
   const { data, isLoading } = useQuery({
     queryKey: ["notes", searchQuery, page],
     queryFn: () => getNotes(searchQuery, page),
+    initialData: { notes, totalPages },
     placeholderData: keepPreviousData,
   });
 
-  const totalPages = data?.totalPages ?? 0;
+  const currentTotalPages = data?.totalPages ?? 0;
 
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox value={searchQuery} onSearch={updateSearchQuery} />
-        {totalPages > 1 && (
+        {currentTotalPages > 1 && (
           <Pagination
-            totalPages={totalPages}
+            totalPages={currentTotalPages}
             page={page}
             onPageChange={setPage}
           />
